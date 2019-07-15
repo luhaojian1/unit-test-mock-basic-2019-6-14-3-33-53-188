@@ -6,9 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
 import java.io.PrintStream;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -17,12 +15,14 @@ public class CashRegisterTest {
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream outputStream = System.out;
+
     @BeforeEach
-    void setOutputStream(){
+    void setOutputStream() {
         System.setOut(new PrintStream(outContent));
     }
+
     @AfterEach
-    void restoreStreams(){
+    void restoreStreams() {
         System.setOut(outputStream);
     }
 
@@ -31,12 +31,12 @@ public class CashRegisterTest {
 
         Printer printer = new Printer();
         CashRegister cashRegister = new CashRegister(printer);
-        Item[] items = new Item[]{new Item("fish",18)};
+        Item[] items = new Item[]{new Item("fish", 18)};
         Purchase purchase = new Purchase(items);
 
         cashRegister.process(purchase);
 
-        assertEquals(purchase.asString(),outContent.toString());
+        assertEquals(purchase.asString(), outContent.toString());
     }
 
     @Test
@@ -49,7 +49,7 @@ public class CashRegisterTest {
 
         cashRegister.process(purchase);
 
-        assertEquals("fish\t18\n",outContent.toString());
+        assertEquals("fish\t18\n", outContent.toString());
     }
 
     @Test
@@ -57,7 +57,7 @@ public class CashRegisterTest {
         Printer printer = mock(Printer.class);
         Purchase purchase = mock(Purchase.class);
         CashRegister cashRegister = new CashRegister(printer);
-        when(purchase.asString()).thenReturn("fish\t18\n");
+
 
         cashRegister.process(purchase);
 
